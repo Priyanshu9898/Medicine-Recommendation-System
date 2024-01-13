@@ -1,6 +1,6 @@
 from mlclassifier.constants import *
 from mlclassifier.utils.common import read_yaml, create_directories, save_json
-from mlclassifier.entity import DataIngestionConfig
+from mlclassifier.entity import DataIngestionConfig, DataLoaderConfig
 import os
 from pathlib import Path
 
@@ -26,6 +26,15 @@ class ConfigurationManager:
             source_URL=config.source_URL,
             local_data_file=config.local_data_file,
             unzip_dir=config.unzip_dir
+        )
+
+        return data_ingestion_config
+
+    def get_data_loader_config(self) -> DataLoaderConfig:
+        config = self.config.data_loader
+
+        data_ingestion_config = DataLoaderConfig(
+            root_dir=config.root_dir,
         )
 
         return data_ingestion_config
