@@ -13,8 +13,8 @@ joblib
 types-PyYAML
 Flask
 Flask-Cors
-gdown
 scikit-learn
 flask-swagger-ui
 gunicorn
+google-api-python-client
 -e .
