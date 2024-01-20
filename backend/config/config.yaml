@@ -8,3 +8,9 @@ data_ingestion:
 
 data_loader:
   root_dir: artifacts/data_ingestion/dataset
+
+model_training:
+  root_dir: artifacts/results
+
+model_evaluation:
+  root_dir: Model

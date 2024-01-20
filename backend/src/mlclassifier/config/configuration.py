@@ -1,6 +1,6 @@
 from mlclassifier.constants import *
 from mlclassifier.utils.common import read_yaml, create_directories, save_json
-from mlclassifier.entity import DataIngestionConfig, DataLoaderConfig
+from mlclassifier.entity import DataIngestionConfig, DataLoaderConfig, ModelTrainingConfig, ModelEvaluationConfig
 import os
 from pathlib import Path
 
@@ -32,9 +32,33 @@ class ConfigurationManager:
 
     def get_data_loader_config(self) -> DataLoaderConfig:
         config = self.config.data_loader
+        
+        
 
         data_ingestion_config = DataLoaderConfig(
             root_dir=config.root_dir,
         )
 
         return data_ingestion_config
+
+    def get_model_training_config(self) -> ModelTrainingConfig:
+        config = self.config.model_training
+        
+        create_directories([config.root_dir])
+
+        model_training_config = ModelTrainingConfig(
+            root_dir=config.root_dir,
+        )
+
+        return model_training_config
+    
+    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
+        config = self.config.model_evaluation
+        
+        create_directories([config.root_dir])
+
+        model_evaluation_config = ModelEvaluationConfig(
+            root_dir= Path(config.root_dir),
+        )
+
+        return model_evaluation_config

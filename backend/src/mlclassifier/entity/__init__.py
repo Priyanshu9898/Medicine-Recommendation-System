@@ -13,3 +13,10 @@ class DataIngestionConfig:
 class DataLoaderConfig:
     root_dir: Path
     
+@dataclass(frozen=True)
+class ModelTrainingConfig:
+    root_dir: Path
+    
+@dataclass(frozen=True)
+class ModelEvaluationConfig:
+    root_dir: Path
