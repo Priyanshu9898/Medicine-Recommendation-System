@@ -15,7 +15,7 @@ Flask
 Flask-Cors
 scikit-learn
 flask-swagger-ui
-gunicorn
 google-api-python-client
 dill
+gunicorn
 -e .
