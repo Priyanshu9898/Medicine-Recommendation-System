@@ -14,9 +14,9 @@ from src.mlclassifier.pipeline.prediction_pipeline import PredictionPipeline
 app = Flask(__name__)
 
 # Define allowed origins for CORS
-allowed_origins = ["http://localhost:3000", 'http://127.0.0.1:3000']
+allowed_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
-CORS(app)  # Enable CORS for your app
+CORS(app, resources={r"/*": {"origins": allowed_origins}})
 
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.json'
