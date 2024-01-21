@@ -18,4 +18,5 @@ flask-swagger-ui
 google-api-python-client
 dill
 gunicorn
+gdown
 -e .
