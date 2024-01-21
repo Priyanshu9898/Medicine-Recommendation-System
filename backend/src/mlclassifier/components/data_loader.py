@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -43,21 +44,21 @@ class DataLoader:
 
         X = dataset.drop('prognosis', axis=1)
         y = dataset['prognosis']
-        
+
         allSymptoms = X.columns
-        
+
         logging.info(f"all Symptoms: {allSymptoms}")
-        
-        symptoms_dict  = {prognosis: index for index, prognosis in enumerate(allSymptoms)}
+
+        symptoms_dict = {prognosis: index for index,
+                         prognosis in enumerate(allSymptoms)}
         logging.info(f"Symptoms to integer mapping: {symptoms_dict}")
-        
 
         allClasses = y.unique()
         logging.info(f"Unique values in prognosis: {allClasses}")
 
         # Creating a mapping from prognosis to integers starting from 1
-        prognosis_mapping = {prognosis: index +
-                             1 for index, prognosis in enumerate(allClasses)}
+        prognosis_mapping = {index +
+                             1: prognosis for index, prognosis in enumerate(allClasses)}
         logging.info(f"Prognosis to integer mapping: {prognosis_mapping}")
 
         # encoding prognosis
@@ -75,5 +76,12 @@ class DataLoader:
             X, Y, test_size=split_size, random_state=random_state)
 
         logging.info("Dataset split completed.")
+
+        X_train = np.array(X_train)
+
+        # print(X_train)
+        X_test = np.array(X_test)
+        y_train = np.array(y_train)
+        y_test = np.array(y_test)
 
         return X_train, X_test, y_train, y_test

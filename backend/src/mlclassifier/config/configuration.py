@@ -1,6 +1,6 @@
 from mlclassifier.constants import *
 from mlclassifier.utils.common import read_yaml, create_directories, save_json
-from mlclassifier.entity import DataIngestionConfig, DataLoaderConfig, ModelTrainingConfig, ModelEvaluationConfig
+from mlclassifier.entity import DataIngestionConfig, DataLoaderConfig, ModelTrainingConfig, ModelEvaluationConfig, PredictionConfig
 import os
 from pathlib import Path
 
@@ -62,3 +62,12 @@ class ConfigurationManager:
         )
 
         return model_evaluation_config
+
+    def get_model_prediction_config(self) -> PredictionConfig:
+        config = self.config.prediction
+        
+        prediction_config = PredictionConfig(
+            best_model= Path(config.model_path),
+        )
+
+        return prediction_config

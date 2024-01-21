@@ -24,6 +24,9 @@ class ModelTraining:
 
     def train_model(self, model_name, model):
         self.logger.info(f"Training {model_name} model...")
+
+        # print(self.X_train)
+        
         model.fit(self.X_train, self.y_train)
         y_pred = model.predict(self.X_test)
 
@@ -45,19 +48,19 @@ class ModelTraining:
 
     def train_all_models(self):
         self.logger.info("Training all models...")
-        svm_classifier = SVC(kernel='linear', C=1)
         dt_classifier = DecisionTreeClassifier()
         rf_classifier = RandomForestClassifier(n_estimators=100)
+        # svm_classifier = SVC(kernel='linear', C=1)
         gb_classifier = GradientBoostingClassifier(n_estimators=100)
         lr_classifier = LogisticRegression(max_iter=1000)
         knn_classifier = KNeighborsClassifier()
         nb_classifier = GaussianNB()
 
         # Train and store all models
-        self.train_model('SVM', svm_classifier)
+        # self.train_model('SVM', svm_classifier)
+        self.train_model('GradientBoosting', gb_classifier)
         self.train_model('DecisionTree', dt_classifier)
         self.train_model('RandomForest', rf_classifier)
-        self.train_model('GradientBoosting', gb_classifier)
         self.train_model('LogisticRegression', lr_classifier)
         self.train_model('KNeighbors', knn_classifier)
         self.train_model('NaiveBayes', nb_classifier)

@@ -20,3 +20,7 @@ class ModelTrainingConfig:
 @dataclass(frozen=True)
 class ModelEvaluationConfig:
     root_dir: Path
+    
+@dataclass(frozen=True)
+class PredictionConfig:
+    best_model: Path

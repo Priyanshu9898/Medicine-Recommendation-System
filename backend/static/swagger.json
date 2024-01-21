@@ -1,0 +1,69 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Medicine Recommendation System API",
+      "description": "API for Medicine Recommendation System application"
+    },
+    "basePath": "/",
+    "schemes": ["http", "https"],
+    "paths": {
+      "/predict": {
+        "post": {
+          "summary": "Predict disease based on symptoms",
+          "description": "This endpoint predicts a disease based on input symptoms.",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "symptoms": {
+                    "type": "array",
+                    "description": "List of symptoms",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful prediction",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "type": "string",
+                    "description": "Predicted disease"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/train": {
+        "get": {
+          "summary": "Train machine learning models",
+          "description": "This endpoint triggers the training of machine learning models.",
+          "responses": {
+            "200": {
+              "description": "Training completed successfully"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      }
+    }
+  }
+  
