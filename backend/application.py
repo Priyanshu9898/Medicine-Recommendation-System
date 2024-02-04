@@ -14,7 +14,7 @@ from src.mlclassifier.pipeline.prediction_pipeline import PredictionPipeline
 app = Flask(__name__)
 
 # Define allowed origins for CORS
-allowed_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
+allowed_origins = ["http://localhost:3000", "http://127.0.0.1:3000", "https://metadoctorhelper.vercel.app"]
 
 CORS(app, resources={r"/*": {"origins": allowed_origins}})
 
@@ -29,14 +29,14 @@ app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 def predict():
     try:
         input_data = request.json
-        
+
         print(input_data)
         input_symptoms = input_data.get('symptoms', [])
 
         # Initialize the PredictionPipeline
         prediction_pipeline = PredictionPipeline(symptoms=input_symptoms)
         results = prediction_pipeline.main()
-        
+
         # print(type(results['Workout']))
 
         # print((results))
@@ -45,11 +45,13 @@ def predict():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
+
 @app.route('/')
 @cross_origin(origins=allowed_origins)
 def index():
     return "<h1>Medicine Recommendation System Backend</h1> <br /> Go to Swagger Docs: <a href='/swagger'>Link</a>"
+
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000)
