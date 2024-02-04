@@ -42,6 +42,9 @@ class DataLoader:
     def processing(self, dataset):
         logging.info("Starting dataset processing.")
 
+        dataset.dropna(inplace=True)
+
+        # print(dataset['prognosis'])
         X = dataset.drop('prognosis', axis=1)
         y = dataset['prognosis']
 
@@ -61,10 +64,16 @@ class DataLoader:
                              1: prognosis for index, prognosis in enumerate(allClasses)}
         logging.info(f"Prognosis to integer mapping: {prognosis_mapping}")
 
+        prognosis_mapping_list = {prognosis: index +
+                                  1 for index, prognosis in enumerate(allClasses)}
+        logging.info(f"Prognosis to integer mapping: {prognosis_mapping}")
+
         # encoding prognosis
-        Y = y.map(prognosis_mapping)
+        Y = y.map(prognosis_mapping_list)
 
         logging.info("Prognosis encoded.")
+
+        # print(Y)
 
         return X, Y, prognosis_mapping, symptoms_dict
 

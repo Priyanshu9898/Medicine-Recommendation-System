@@ -11,7 +11,9 @@ from src.mlclassifier.components.model_evaluation import ModelEvaluation
 from src.mlclassifier import logger
 from src.mlclassifier.pipeline.prediction_pipeline import PredictionPipeline
 
-app = Flask(__name__)
+application=Flask(__name__)
+
+app=application
 
 # Define allowed origins for CORS
 allowed_origins = ["http://localhost:3000",

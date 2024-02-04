@@ -14,9 +14,8 @@ types-PyYAML
 Flask
 Flask-Cors
 flask-swagger-ui
-google-api-python-client
-dill
 gunicorn
 gdown
 scikit-learn
+dill
 -e .
