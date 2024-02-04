@@ -14,7 +14,8 @@ from src.mlclassifier.pipeline.prediction_pipeline import PredictionPipeline
 app = Flask(__name__)
 
 # Define allowed origins for CORS
-allowed_origins = ["http://localhost:3000", "http://127.0.0.1:3000", "https://metadoctorhelper.vercel.app"]
+allowed_origins = ["http://localhost:3000",
+                   "http://127.0.0.1:3000", "https://metadoctorhelper.vercel.app"]
 
 CORS(app)
 
