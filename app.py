@@ -11,7 +11,6 @@ from src.mlclassifier.components.model_evaluation import ModelEvaluation
 from src.mlclassifier import logger
 from src.mlclassifier.pipeline.prediction_pipeline import PredictionPipeline
 import pandas as pd
-from mlclassifier import logger
 app = Flask(__name__)
 
 
@@ -29,25 +28,25 @@ app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 logger.info("Starting to load datasets.")
 
 
-sym_des = pd.read_csv(f"symtoms_df.csv")
+sym_des = pd.read_csv("symtoms_df.csv")
 logger.info("Symptoms dataset loaded.")
 
-precautions = pd.read_csv(f"precautions_df.csv")
+precautions = pd.read_csv("precautions_df.csv")
 logger.info("Precautions dataset loaded.")
 
-workout = pd.read_csv(f"workout_df.csv")
+workout = pd.read_csv("workout_df.csv")
 logger.info("Workout dataset loaded.")
 
-description = pd.read_csv(f"description.csv")
+description = pd.read_csv("description.csv")
 logger.info("Description dataset loaded.")
 
-medications = pd.read_csv(f'medications.csv')
+medications = pd.read_csv('medications.csv')
 logger.info("Medications dataset loaded.")
 
-diets = pd.read_csv(f"diets.csv")
+diets = pd.read_csv("diets.csv")
 logger.info("Diets dataset loaded.")
 
-data = pd.read_csv(f"training.csv")
+data = pd.read_csv("training.csv")
 logger.info("Training dataset loaded.")
 
 
