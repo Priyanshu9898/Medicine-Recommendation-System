@@ -63,25 +63,25 @@ class Prediction:
 
         root_path = Path("dataset")
 
-        sym_des = pd.read_csv(f"{root_path}/symtoms_df.csv")
+        sym_des = pd.read_csv(f"symtoms_df.csv")
         logging.info("Symptoms dataset loaded.")
 
-        precautions = pd.read_csv(f"{root_path}/precautions_df.csv")
+        precautions = pd.read_csv(f"precautions_df.csv")
         logging.info("Precautions dataset loaded.")
 
-        workout = pd.read_csv(f"{root_path}/workout_df.csv")
+        workout = pd.read_csv(f"workout_df.csv")
         logging.info("Workout dataset loaded.")
 
-        description = pd.read_csv(f"{root_path}/description.csv")
+        description = pd.read_csv(f"description.csv")
         logging.info("Description dataset loaded.")
 
-        medications = pd.read_csv(f'{root_path}/medications.csv')
+        medications = pd.read_csv(f'medications.csv')
         logging.info("Medications dataset loaded.")
 
-        diets = pd.read_csv(f"{root_path}/diets.csv")
+        diets = pd.read_csv(f"diets.csv")
         logging.info("Diets dataset loaded.")
 
-        data = pd.read_csv(f"{root_path}/training.csv")
+        data = pd.read_csv(f"training.csv")
         logging.info("Training dataset loaded.")
 
         self.symptoms_dict = self.data_loader.processing(data)[-1]
