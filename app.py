@@ -10,7 +10,8 @@ from src.mlclassifier.components.model_training import ModelTraining
 from src.mlclassifier.components.model_evaluation import ModelEvaluation
 from src.mlclassifier import logger
 from src.mlclassifier.pipeline.prediction_pipeline import PredictionPipeline
-
+import pandas as pd
+from mlclassifier import logger
 app = Flask(__name__)
 
 
@@ -25,6 +26,30 @@ API_URL = '/static/swagger.json'
 swaggerui_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL)
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
+logger.info("Starting to load datasets.")
+
+
+sym_des = pd.read_csv(f"symtoms_df.csv")
+logger.info("Symptoms dataset loaded.")
+
+precautions = pd.read_csv(f"precautions_df.csv")
+logger.info("Precautions dataset loaded.")
+
+workout = pd.read_csv(f"workout_df.csv")
+logger.info("Workout dataset loaded.")
+
+description = pd.read_csv(f"description.csv")
+logger.info("Description dataset loaded.")
+
+medications = pd.read_csv(f'medications.csv')
+logger.info("Medications dataset loaded.")
+
+diets = pd.read_csv(f"diets.csv")
+logger.info("Diets dataset loaded.")
+
+data = pd.read_csv(f"training.csv")
+logger.info("Training dataset loaded.")
+
 
 @app.route('/predict', methods=['POST'])
 @cross_origin(origins=allowed_origins)
@@ -32,11 +57,14 @@ def predict():
     try:
         input_data = request.json
 
+        # description, precautions, medications, diets, workout, data, sym_des
+
         print(input_data)
         input_symptoms = input_data.get('symptoms', [])
 
         # Initialize the PredictionPipeline
-        prediction_pipeline = PredictionPipeline(symptoms=input_symptoms)
+        prediction_pipeline = PredictionPipeline(symptoms=input_symptoms, description=description, precautions=precautions,
+                                                 medications=medications, diets=diets, workout=workout, data=data, sym_des=sym_des)
         results = prediction_pipeline.main()
 
         # print(type(results['Workout']))

@@ -35,12 +35,19 @@ def helper(predicted_disease, precautions, workout, description, medications, di
 
 
 class Prediction:
-    def __init__(self, data_loader, trained_model_filename):
+    def __init__(self, data_loader, trained_model_filename, symptoms, description, precautions, medications, diets, workout, data, sym_des):
         self.data_loader = data_loader
         self.trained_model_filename = trained_model_filename
         self.trained_model = None
         self.symptoms_dict = None
         self.diseases_list = None
+        self.description = description
+        self.precautions = precautions
+        self.medications = medications
+        self.diets = diets
+        self.workout = workout
+        self.data = data
+        self.sym_des = sym_des
 
     def load_model(self):
         with open(self.trained_model_filename, 'rb') as model_file:
@@ -59,33 +66,8 @@ class Prediction:
 
     def predict(self, input_symptoms):
 
-        logging.info("Starting to load datasets.")
-
-        root_path = Path("dataset")
-
-        sym_des = pd.read_csv(f"symtoms_df.csv")
-        logging.info("Symptoms dataset loaded.")
-
-        precautions = pd.read_csv(f"precautions_df.csv")
-        logging.info("Precautions dataset loaded.")
-
-        workout = pd.read_csv(f"workout_df.csv")
-        logging.info("Workout dataset loaded.")
-
-        description = pd.read_csv(f"description.csv")
-        logging.info("Description dataset loaded.")
-
-        medications = pd.read_csv(f'medications.csv')
-        logging.info("Medications dataset loaded.")
-
-        diets = pd.read_csv(f"diets.csv")
-        logging.info("Diets dataset loaded.")
-
-        data = pd.read_csv(f"training.csv")
-        logging.info("Training dataset loaded.")
-
-        self.symptoms_dict = self.data_loader.processing(data)[-1]
-        self.diseases_list = self.data_loader.processing(data)[-2]
+        self.symptoms_dict = self.data_loader.processing(self.data)[-1]
+        self.diseases_list = self.data_loader.processing(self.data)[-2]
 
         # Encode the input symptoms
         # print(input_symptoms)
@@ -104,7 +86,7 @@ class Prediction:
 
         # Retrieve additional information using the helper function (you can use the provided helper function here)
         description, precautions, medications, diets, workout = helper(
-            predicted_disease, precautions, workout, description, medications, diets)
+            predicted_disease, self.precautions, self.workout, self.description, self.medications, self.diets)
 
         # logger.info(description, precautions, medications, diets, workout)
 
