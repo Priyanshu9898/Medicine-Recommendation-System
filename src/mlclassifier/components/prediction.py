@@ -3,35 +3,36 @@ import numpy as np
 import logging
 from mlclassifier import logger
 import ast
+import pandas as pd
+from pathlib import Path
+
 
 def helper(predicted_disease, precautions, workout, description, medications, diets):
 
-        desc = description[description['Disease']
-                           == predicted_disease]['Description']
-        desc = " ".join([w for w in desc])
+    desc = description[description['Disease']
+                       == predicted_disease]['Description']
+    desc = " ".join([w for w in desc])
 
+    pre = precautions[precautions['Disease'] == predicted_disease][[
+        'Precaution_1', 'Precaution_2', 'Precaution_3', 'Precaution_4']]
 
-        pre = precautions[precautions['Disease'] == predicted_disease][[
-            'Precaution_1', 'Precaution_2', 'Precaution_3', 'Precaution_4']]
+    pre = [col for col in pre.values[0]]
 
-        pre = [col for col in pre.values[0]]
-        
+    med = medications[medications['Disease']
+                      == predicted_disease]['Medication']
 
-        med = medications[medications['Disease']
-                          == predicted_disease]['Medication']
+    med = [ast.literal_eval(med) for med in med.values]
+    med = med[0]
 
-        med = [ast.literal_eval(med) for med in med.values]
-        med = med[0]
+    die = diets[diets['Disease'] == predicted_disease]['Diet']
+    die = [ast.literal_eval(die) for die in die.values]
+    die = die[0]
 
-        die = diets[diets['Disease'] == predicted_disease]['Diet']
-        die = [ast.literal_eval(die) for die in die.values]
-        die = die[0]
-        
-        
-        wrkout = workout[workout['disease'] == predicted_disease]['workout']
-        wrkout = [wrkout for wrkout in wrkout.values]
-        
-        return desc, pre, med, die, wrkout
+    wrkout = workout[workout['disease'] == predicted_disease]['workout']
+    wrkout = [wrkout for wrkout in wrkout.values]
+
+    return desc, pre, med, die, wrkout
+
 
 class Prediction:
     def __init__(self, data_loader, trained_model_filename):
@@ -54,22 +55,50 @@ class Prediction:
         for symptom in input_symptoms:
             input_vector[self.symptoms_dict[symptom]] = 1
 
-        print(len(input_vector))
-
         return input_vector, features_names
 
     def predict(self, input_symptoms):
         data, sym_des, precautions, workout, description, medications, diets = self.data_loader.loadDataset()
+
+        logging.info("Starting to load datasets.")
+
+        root_path = Path("dataset")
+
+        sym_des = pd.read_csv(f"{root_path}/symtoms_df.csv")
+        logging.info("Symptoms dataset loaded.")
+
+        precautions = pd.read_csv(f"{root_path}/precautions_df.csv")
+        logging.info("Precautions dataset loaded.")
+
+        workout = pd.read_csv(f"{root_path}/workout_df.csv")
+        logging.info("Workout dataset loaded.")
+
+        description = pd.read_csv(f"{root_path}/description.csv")
+        logging.info("Description dataset loaded.")
+
+        medications = pd.read_csv(f'{root_path}/medications.csv')
+        logging.info("Medications dataset loaded.")
+
+        diets = pd.read_csv(f"{root_path}/diets.csv")
+        logging.info("Diets dataset loaded.")
+
+        data = pd.read_csv(f"{root_path}/training.csv")
+        logging.info("Training dataset loaded.")
+
         self.symptoms_dict = self.data_loader.processing(data)[-1]
         self.diseases_list = self.data_loader.processing(data)[-2]
 
         # Encode the input symptoms
+        print(input_symptoms)
+
         input_vector, features_names = self.encode_symptoms(input_symptoms)
-        
+
+        print(input_vector)
         # Use the trained model to make predictions
         predicted_class = self.trained_model.predict([input_vector])[0]
 
-    
+        print(predicted_class)
+
         predicted_disease = self.diseases_list[predicted_class]
         logging.info(
             f"Predicted class: {predicted_class}, predicted_disease: {predicted_disease}")
@@ -77,10 +106,9 @@ class Prediction:
         # Retrieve additional information using the helper function (you can use the provided helper function here)
         description, precautions, medications, diets, workout = helper(
             predicted_disease, precautions, workout, description, medications, diets)
-        
+
         # logger.info(description, precautions, medications, diets, workout)
-        
-        
+
         # Return the results as a dictionary
         results = {
             "Predicted Disease": predicted_disease,
@@ -91,9 +119,6 @@ class Prediction:
             "Workout": workout
         }
 
-
         # print(results)
-        
-        return results
 
-    
+        return results
