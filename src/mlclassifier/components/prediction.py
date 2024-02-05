@@ -58,7 +58,6 @@ class Prediction:
         return input_vector, features_names
 
     def predict(self, input_symptoms):
-        data, sym_des, precautions, workout, description, medications, diets = self.data_loader.loadDataset()
 
         logging.info("Starting to load datasets.")
 
@@ -89,15 +88,15 @@ class Prediction:
         self.diseases_list = self.data_loader.processing(data)[-2]
 
         # Encode the input symptoms
-        print(input_symptoms)
+        # print(input_symptoms)
 
         input_vector, features_names = self.encode_symptoms(input_symptoms)
 
-        print(input_vector)
+        # print(input_vector)
         # Use the trained model to make predictions
         predicted_class = self.trained_model.predict([input_vector])[0]
 
-        print(predicted_class)
+        # print(predicted_class)
 
         predicted_disease = self.diseases_list[predicted_class]
         logging.info(
