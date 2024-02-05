@@ -46,7 +46,7 @@ logger.info("Medications dataset loaded.")
 diets = pd.read_csv("diets.csv")
 logger.info("Diets dataset loaded.")
 
-data = pd.read_csv("training.csv")
+data = pd.read_csv("Training.csv")
 logger.info("Training dataset loaded.")
 
 
