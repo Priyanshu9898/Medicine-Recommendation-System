@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 
 # Define allowed origins for CORS
-allowed_origins = ["http://localhost:3000",
+allowed_origins = [ "https://meta-doctor.vercel.app", "https://meta-doctor.vercel.app/",  "https://metadoctorhelper.vercel.app", "http://localhost:3000",
                    "http://127.0.0.1:3000", "https://metadoctorhelper.vercel.app", "https://meta-doctor.vercel.app", "https://meta-doctor-nwxeblfpx-priyanshumalaviya9210-gmailcom.vercel.app", "https://meta-doctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app"]
 
 CORS(app)
