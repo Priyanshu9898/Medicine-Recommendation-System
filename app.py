@@ -50,6 +50,19 @@ data = pd.read_csv("Training.csv")
 logger.info("Training dataset loaded.")
 
 
+@app.after_request
+def after_request(response):
+    header = response.headers
+    log_message = f"Access-Control-Allow-Origin: {header.get('Access-Control-Allow-Origin')}"
+    logger.info(log_message)
+    return response
+
+@app.route('/predict', methods=['OPTIONS'])
+@cross_origin(origins=allowed_origins)
+def predict_options():
+    return jsonify({'message': 'OPTIONS request allowed'}), 200
+
+
 @app.route('/predict', methods=['POST'])
 @cross_origin(origins=allowed_origins)
 def predict():
