@@ -18,4 +18,6 @@ gunicorn
 gdown
 scikit-learn
 dill
+fastapi
+python-multipart
 -e .
