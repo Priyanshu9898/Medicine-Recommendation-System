@@ -15,14 +15,13 @@ import numpy as np
 app = FastAPI()
 
 # CORS configuration
-allowed_origins = [
-    "https://metadoctor.vercel.app/", "https://meta-doctor.vercel.app", "https://meta-doctor.vercel.app/", "https://metadoctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app/", "https://metadoctorhelper.vercel.app", "http://localhost:3000",
+allowed_origins = ["https://meta-doctor.vercel.app", "https://metadoctor.vercel.app/", "https://meta-doctor.vercel.app", "https://meta-doctor.vercel.app/", "https://metadoctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app/", "https://metadoctorhelper.vercel.app", "http://localhost:3000",
     "http://127.0.0.1:3000", "https://metadoctorhelper.vercel.app", "https://metadoctor-priyanshumalaviya9210-gmailcom.vercel.app/", "https://meta-doctor.vercel.app", "https://meta-doctor-nwxeblfpx-priyanshumalaviya9210-gmailcom.vercel.app", "https://meta-doctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
