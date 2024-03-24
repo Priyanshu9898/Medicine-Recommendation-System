@@ -139,28 +139,28 @@ data = pd.read_csv("Training.csv")
 logger.info("Training dataset loaded.")
 
 
-@app.after_request
-def after_request(response):
-    header = response.headers
-    log_message = f"Access-Control-Allow-Origin: {header.get('Access-Control-Allow-Origin')}"
-    logger.info(log_message)
-    return response
+# @app.after_request
+# def after_request(response):
+#     header = response.headers
+#     log_message = f"Access-Control-Allow-Origin: {header.get('Access-Control-Allow-Origin')}"
+#     logger.info(log_message)
+#     return response
 
-@app.route('/predict', methods=['OPTIONS'])
-@cross_origin(origins=allowed_origins)
-def predict_options():
-    return jsonify({'message': 'OPTIONS request allowed'}), 200
+# @app.route('/predict', methods=['OPTIONS'])
+# @cross_origin(origins=allowed_origins)
+# def predict_options():
+#     return jsonify({'message': 'OPTIONS request allowed'}), 200
 
 
+# @cross_origin(origins=allowed_origins)
 @app.route('/predict', methods=['POST'])
-@cross_origin(origins=allowed_origins)
 def predict():
     try:
         input_data = request.json
 
         # description, precautions, medications, diets, workout, data, sym_des
 
-        print(input_data)
+        # print(input_data)
         input_symptoms = input_data.get('symptoms', [])
 
         # Initialize the PredictionPipeline
@@ -178,8 +178,8 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
 
+# @cross_origin(origins=allowed_origins)
 @app.route('/')
-@cross_origin(origins=allowed_origins)
 def index():
     return "<h1>Medicine Recommendation System Backend</h1> <br /> Go to Swagger Docs: <a href='/swagger'>Link</a>"
 
