@@ -22,7 +22,7 @@
 
 # app.add_middleware(
 #     CORSMiddleware,
-#     allow_origins=origins,  
+#     allow_origins=origins,
 #     allow_credentials=True,
 #     allow_methods=["*"],
 #     allow_headers=["X-Requested-With", "Content-Type"],
@@ -60,21 +60,21 @@
 # async def predict(request: Request):
 #     try:
 #         input_data = await request.json()
-        
+
 #         # print(input_data)
-        
+
 #         input_symptoms = input_data.get('symptoms', [])
-        
+
 #         prediction_pipeline = PredictionPipeline(symptoms=input_symptoms, description=description, precautions=precautions,
 #                                                  medications=medications, diets=diets, workout=workout, data=data, sym_des=sym_des)
 #         results = prediction_pipeline.main()
-        
+
 #         print("*"*100, results)
-        
+
 #         clean_results = clean_data(results)
-        
+
 #         return JSONResponse(content=clean_results)
-    
+
 #     except Exception as e:
 #         logger.error(f"Prediction error: {str(e)}")
 #         return JSONResponse(content={'error': str(e)}, status_code=500)
@@ -103,11 +103,11 @@ app = Flask(__name__)
 
 
 # Define allowed origins for CORS
-allowed_origins = ["https://metadoctor.vercel.app/", "https://meta-doctor.vercel.app", "https://meta-doctor.vercel.app/", "https://metadoctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app/",  "https://metadoctorhelper.vercel.app", "http://localhost:3000",
-                   "http://127.0.0.1:3000", "https://metadoctorhelper.vercel.app", "https://metadoctor-priyanshumalaviya9210-gmailcom.vercel.app/", "https://meta-doctor.vercel.app", "https://meta-doctor-nwxeblfpx-priyanshumalaviya9210-gmailcom.vercel.app", "https://meta-doctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app"]
+# allowed_origins = ["https://metadoctor.vercel.app/", "https://meta-doctor.vercel.app", "https://meta-doctor.vercel.app/", "https://metadoctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app/",  "https://metadoctorhelper.vercel.app", "http://localhost:3000",
+#                    "http://127.0.0.1:3000", "https://metadoctorhelper.vercel.app", "https://metadoctor-priyanshumalaviya9210-gmailcom.vercel.app/", "https://meta-doctor.vercel.app", "https://meta-doctor-nwxeblfpx-priyanshumalaviya9210-gmailcom.vercel.app", "https://meta-doctor-git-main-priyanshumalaviya9210-gmailcom.vercel.app"]
 
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Access-Control-Allow-Origin'
+cors = CORS(app, origins="*")
+
 
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.json'
@@ -152,9 +152,22 @@ logger.info("Training dataset loaded.")
 #     return jsonify({'message': 'OPTIONS request allowed'}), 200
 
 
+def _build_cors_preflight_response():
+    response = jsonify({'status': 'OK'})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers",
+                         "Content-Type,Authorization")
+    response.headers.add("Access-Control-Allow-Methods",
+                         "GET,PUT,POST,DELETE,OPTIONS")
+    return response
+
 # @cross_origin(origins=allowed_origins)
-@app.route('/predict', methods=['POST'])
+
+
+@app.route('/predict', methods=['POST', 'OPTIONS'])
 def predict():
+    if request.method == 'OPTIONS':
+        return _build_cors_preflight_response()
     try:
         input_data = request.json
 
